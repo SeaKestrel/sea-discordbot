@@ -17,6 +17,8 @@
   },
   "homepage": "https://github.com/SeaKestrel/sea-discordbot#readme",
   "dependencies": {
-    "discord.js": "^12.5.1"
+    "discord.js": "^12.5.1",
+    "opusscript": "0.0.7",
+    "ytdl-core": "^4.4.5"
   }
 }
