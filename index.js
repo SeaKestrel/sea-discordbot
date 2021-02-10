@@ -23,6 +23,7 @@ bot.on("message", msg => {
             setTimeout(() =>{
                 msg.member.voice.channel.join().then(connection => {
                     msg.reply("Me voilà! Je cherche ton son d'ambiance...")
+                    console.log("Création de connexion sur "+msg.guild.name)
                     let url;
                     switch(msg.content.split(" ")[1]){
                         case "sea":
@@ -36,6 +37,7 @@ bot.on("message", msg => {
                         default:
                             return msg.reply("Ça existe pas andouille!\nc'est soit *sea* soit *storm*!")
                     }
+                    console.log("Choix du son "+sound+" sur le serveur "+msg.guild.name)
                     let dispatcher = connection.play(ytdl(url, {filter: "audioonly"}));
                     playin = true;
                     dispatcher.setVolume(1)
@@ -44,7 +46,7 @@ bot.on("message", msg => {
                         playin = false
                     })
                 })
-            },5000)
+            },2000)
         }
     } else if(msg.content === "/stop") {
         if(playin === true && msg.member.voice.channel){
