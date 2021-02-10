@@ -56,14 +56,22 @@ bot.on("message", msg => {
 
 bot.on("voiceStateUpdate", (state1, state2) => {
     if(state2.channel !== null && state2.channel.name === "sea"){
-        if(state2.id === "809005379073605632") return
-        let member = state2.guild.members.cache.get(state2.id)
-        member.voice.setMute(true, "S'il il se relaxe, il a pas besoin de parler.")
+        try{
+            if(state2.id === "809005379073605632") return
+            let member = state2.guild.members.cache.get(state2.id)
+            member.voice.setMute(true, "S'il il se relaxe, il a pas besoin de parler.")
+        }catch (err) {
+            console.log("Erreur")
+        } 
         return
     } else if(state2.channel !== null && state2.channel.name !== "sea") {
-        let member = state2.guild.members.cache.get(state2.id)
-        if(state2.channelID === null) return;
-        if(member.voice !== null && member.voice.serverMute === true) member.voice.setMute(false, "C'est bon, plus besoin de le faire taire LOL.")
+        try{
+            let member = state2.guild.members.cache.get(state2.id)
+            if(state2.channelID === null) return;
+            if(member.voice !== null && member.voice.serverMute === true) member.voice.setMute(false, "C'est bon, plus besoin de le faire taire LOL.")
+        }catch (err) {
+            console.log("Erreur")
+        } 
         return
     } else{
         return
