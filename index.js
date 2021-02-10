@@ -13,8 +13,6 @@ bot.on("message", msg => {
     if(msg.content.startsWith("/play")){
         if(!msg.member.voice.channel){
             msg.reply("Pas p'ssible ça nanan")
-        }else if (msg.member.voice.channel.name !== "sea"){
-            msg.reply("Pas ici, pas ici...")
         }else {
             if(msg.content.split(" ")[1] === undefined) return msg.reply("Je veux bien te jouer un p'tit truc mais je veux bien savoir quoi :joy:\nTu as à ta disposition:\n-sea\n-storm\nallez là!")
             if(!bot.voice.connections.has(msg.guild.id)) msg.reply("Attends, j'arrive d'ici peu...")
