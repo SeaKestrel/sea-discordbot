@@ -7,6 +7,10 @@ let sound = undefined;
 
 bot.on("ready", () => {
     console.log("La mer se déchaîne!")
+    bot.user.setActivity({
+        name: " the Sea",
+        type: "LISTENING"
+    })
 })
 
 bot.on("message", msg => {
