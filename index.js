@@ -78,4 +78,4 @@ bot.on("error", err =>{
     })
 })
 
-bot.login(process.env.TOKEN || "ODA5MDA1Mzc5MDczNjA1NjMy.YCOy-A.rlkLTMcqOSVxeepiyMc20bl25oc")
+bot.login(process.env.TOKEN)
