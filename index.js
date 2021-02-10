@@ -55,7 +55,6 @@ bot.on("message", msg => {
 })
 
 bot.on("voiceStateUpdate", (state1, state2) => {
-    console.log("voice update")
     if(state2.channel !== null && state2.channel.name === "sea"){
         if(state2.id === "809005379073605632") return
         let member = state2.guild.members.cache.get(state2.id)
@@ -67,7 +66,6 @@ bot.on("voiceStateUpdate", (state1, state2) => {
         if(member.voice !== null && member.voice.serverMute === true) member.voice.setMute(false, "C'est bon, plus besoin de le faire taire LOL.")
         return
     } else{
-        console.log("RIEEEEEEEEEEEEEEEN")
         return
     }
 })
