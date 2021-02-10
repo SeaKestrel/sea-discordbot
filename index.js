@@ -54,7 +54,7 @@ bot.on("message", msg => {
     }
 })
 
-bot.on("voiceStateUpdate", (state1, state2) => {
+/*bot.on("voiceStateUpdate", (state1, state2) => {
     if(state2.channel !== null && state2.channel.name === "sea"){
         try{
             if(state2.id === "809005379073605632") return
@@ -82,6 +82,6 @@ bot.on("error", err =>{
     bot.users.cache.get("295316854044622849").createDM().then(c => {
         c.send("Y'a une erreur je crois...\n"+err.name+": "+err.message)
     })
-})
+})*/
 
 bot.login(process.env.TOKEN)
