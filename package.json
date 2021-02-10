@@ -1,0 +1,22 @@
+{
+  "name": "sea-discordbot",
+  "version": "1.0.0",
+  "description": "A discord bot that plays relaxing sounds",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/SeaKestrel/sea-discordbot.git"
+  },
+  "author": "SeaKestrel",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/SeaKestrel/sea-discordbot/issues"
+  },
+  "homepage": "https://github.com/SeaKestrel/sea-discordbot#readme",
+  "dependencies": {
+    "discord.js": "^12.5.1"
+  }
+}
