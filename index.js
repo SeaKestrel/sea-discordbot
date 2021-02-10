@@ -2,6 +2,10 @@ let { Client } = require("discord.js")
 let ytdl = require("ytdl-core")
 let bot = new Client()
 
+bot.on("ready", () => {
+    console.log("La mer se déchaîne!")
+})
+
 bot.on("message", msg => {
     if(msg.content.startsWith("/play")){
         if(!msg.member.voice.channel){
