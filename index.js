@@ -29,7 +29,7 @@ bot.on("message", msg => {
         if(!msg.member.voice.channel){
             msg.reply("Pas p'ssible ça nanan")
         }else {
-            if(msg.content.split(" ")[1] === undefined) return msg.reply("Je veux bien te jouer un p'tit truc mais je veux bien savoir quoi :joy:\nTu as à ta disposition:\n- sea\n- storm\n- url <lien>\nallez là!")
+            if(msg.content.split(" ")[1] === undefined) return msg.reply("Je veux bien te jouer un p'tit truc mais je veux bien savoir quoi :joy:\nTu as à ta disposition:\n- sea\n- storm\n- forest\n- url <lien>\nallez là!")
             if(!bot.voice.connections.has(msg.guild.id) || !bot.voice) msg.channel.send("Attends, j'arrive d'ici peu...")
             setTimeout(() =>{
                 msg.member.voice.channel.join().then(connection => {
@@ -50,7 +50,7 @@ bot.on("message", msg => {
                         url = "https://www.youtube.com/watch?v=OdIJ2x3nxzQ"
                         sound = forest
                     }else {
-                        return msg.reply("Ça existe pas andouille!\nc'est \n- sea\n- storm\n- url <lien>")
+                        return msg.reply("Ça existe pas andouille!\nc'est \n- sea\n- storm\n- forest\n- url <lien>")
                     }
                     console.log("Choix du son "+sound+" sur le serveur "+msg.guild.name)
                     let dispatcher = connection.play(ytdl(url, {filter: 'audioonly'}));
