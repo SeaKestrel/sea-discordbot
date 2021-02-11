@@ -48,7 +48,7 @@ bot.on("message", msg => {
                         if(!url.startsWith("https")) return msg.reply("C'est po un line ço")
                     } else if(msg.content.split(" ")[1] === "forest"){
                         url = "https://www.youtube.com/watch?v=OdIJ2x3nxzQ"
-                        sound = forest
+                        sound = "forest"
                     }else {
                         return msg.reply("Ça existe pas andouille!\nc'est \n- sea\n- storm\n- forest\n- url <lien>")
                     }
