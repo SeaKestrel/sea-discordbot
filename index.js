@@ -2,15 +2,26 @@ let { Client } = require("discord.js")
 let ytdl = require("ytdl-core")
 let bot = new Client()
 
-let playin = false;
+let playin = []
+bot.guilds.cache.forEach((guild, key, map) => {
+    playin[guild.id] = false;
+})
 let sound = undefined;
+let loop = false;
 
 bot.on("ready", () => {
+    let a = 0;
+    bot.user.setActivity({name: " the Sea", type: "LISTENING"})
+    setInterval(() =>{
+        if(a === 0) {
+            bot.user.setActivity({name: " the Sea", type: "LISTENING"})
+            a = 1
+        } else if(a === 1){
+            bot.user.setActivity({name: "the pleasure of everyone", type: "COMPETING"})
+            a = 0
+        }
+    }, 20000)
     console.log("La mer se déchaîne!")
-    bot.user.setActivity({
-        name: " the Sea",
-        type: "LISTENING"
-    })
 })
 
 bot.on("message", msg => {
@@ -18,74 +29,67 @@ bot.on("message", msg => {
         if(!msg.member.voice.channel){
             msg.reply("Pas p'ssible ça nanan")
         }else {
-            if(msg.content.split(" ")[1] === undefined) return msg.reply("Je veux bien te jouer un p'tit truc mais je veux bien savoir quoi :joy:\nTu as à ta disposition:\n-sea\n-storm\nallez là!")
-            if(!bot.voice.connections.has(msg.guild.id)) msg.reply("Attends, j'arrive d'ici peu...")
+            if(msg.content.split(" ")[1] === undefined) return msg.reply("Je veux bien te jouer un p'tit truc mais je veux bien savoir quoi :joy:\nTu as à ta disposition:\n- sea\n- storm\n- url <lien>\nallez là!")
+            if(!bot.voice.connections.has(msg.guild.id) || !bot.voice) msg.channel.send("Attends, j'arrive d'ici peu...")
             setTimeout(() =>{
                 msg.member.voice.channel.join().then(connection => {
-                    msg.reply("Me voilà! Je cherche ton son d'ambiance...")
+                    msg.channel.send("Me voilà! Je cherche ton son...")
                     console.log("Création de connexion sur "+msg.guild.name)
                     let url;
-                    switch(msg.content.split(" ")[1]){
-                        case "sea":
-                            url = "https://www.youtube.com/watch?v=WHPEKLQID4U";
-                            sound = "sea"
-                        break;
-                        case "storm":
-                            url = "https://www.youtube.com/watch?v=ekXFslHOvZ8";
-                            sound = "storm"
-                        break;
-                        default:
-                            return msg.reply("Ça existe pas andouille!\nc'est soit *sea* soit *storm*!")
+                    if(msg.content.split(" ")[1] === "sea"){
+                        url = "https://www.youtube.com/watch?v=WHPEKLQID4U";
+                        sound = "sea"
+                    } else if(msg.content.split(" ")[1] === "storm"){
+                        url = "https://www.youtube.com/watch?v=ekXFslHOvZ8";
+                        sound = "storm"
+                    } else if(msg.content.split(" ")[1] === "url"){
+                        if(msg.content.split(" ")[2] === undefined) return msg.reply("Je veux bien un lien steplé")
+                        url = msg.content.split(" ")[2]; 
+                        if(!url.startsWith("https")) return msg.reply("C'est po un line ço")
+                    } else {
+                        return msg.reply("Ça existe pas andouille!\nc'est \n- sea\n- storm\n- url <lien>")
                     }
                     console.log("Choix du son "+sound+" sur le serveur "+msg.guild.name)
-                    let dispatcher = connection.play(ytdl(url, {filter: "audioonly"}));
-                    playin = true;
+                    let dispatcher = connection.play(ytdl(url, {filter: 'audioonly'}));
+                    playin[msg.guild.id] = true;
                     dispatcher.setVolume(1)
+                    dispatcher.on("start", () => {
+                        if(msg.content.split(" ")[1] === "url"){
+                            msg.channel.send("J'ai démarré un son, j'sais po c'est qwo, mais si t'aimes ben tant mieux :joy::joy:")
+                        }
+                    })
                     dispatcher.on("end", () => {
                         connection.disconnect()
-                        playin = false
+                        playin[msg.guild.id] = false
                     })
                 })
             },2000)
         }
     } else if(msg.content === "/stop") {
-        if(playin === true && msg.member.voice.channel){
+        if(playin[msg.guild.id] === true && msg.member.voice.channel){
             if(bot.voice.connections.has(msg.guild.id)) {
                 bot.voice.connections.get(msg.guild.id).disconnect()
                 msg.reply("Voilà, c'est bon, j'arrête")
+            } else {
+                msg.channel.send("Bam dans ta gueule")
             }
+        } else {
+            msg.reply("I CANT")
+        }
+    } else if(msg.content === "/loop"){
+        if(loop){
+            loop = false
+            msg.channel.send("Mode LOUPE :repeat: désactivé!")
+        } else {
+            loop = true
+            msg.channel.send("Mode LOUPE :repeat: activé!")
+        }
+    } else if(msg.content === "/delbot"){
+        if(msg.author.id === "295316854044622849"){
+            bot.destroy()
+            process.exit(0);
         }
     }
 })
-
-/*bot.on("voiceStateUpdate", (state1, state2) => {
-    if(state2.channel !== null && state2.channel.name === "sea"){
-        try{
-            if(state2.id === "809005379073605632") return
-            let member = state2.guild.members.cache.get(state2.id)
-            member.voice.setMute(true, "S'il il se relaxe, il a pas besoin de parler.")
-        }catch (err) {
-            console.log("Erreur")
-        } 
-        return
-    } else if(state2.channel !== null && state2.channel.name !== "sea") {
-        try{
-            let member = state2.guild.members.cache.get(state2.id)
-            if(state2.channelID === null) return;
-            if(member.voice !== null && member.voice.serverMute === true) member.voice.setMute(false, "C'est bon, plus besoin de le faire taire LOL.")
-        }catch (err) {
-            console.log("Erreur")
-        } 
-        return
-    } else{
-        return
-    }
-})
-
-bot.on("error", err =>{
-    bot.users.cache.get("295316854044622849").createDM().then(c => {
-        c.send("Y'a une erreur je crois...\n"+err.name+": "+err.message)
-    })
-})*/
 
 bot.login(process.env.TOKEN)
