@@ -46,7 +46,10 @@ bot.on("message", msg => {
                         if(msg.content.split(" ")[2] === undefined) return msg.reply("Je veux bien un lien steplé")
                         url = msg.content.split(" ")[2]; 
                         if(!url.startsWith("https")) return msg.reply("C'est po un line ço")
-                    } else {
+                    } else if(msg.content.split(" ")[1] === "forest"){
+                        url = "https://www.youtube.com/watch?v=OdIJ2x3nxzQ"
+                        sound = forest
+                    }else {
                         return msg.reply("Ça existe pas andouille!\nc'est \n- sea\n- storm\n- url <lien>")
                     }
                     console.log("Choix du son "+sound+" sur le serveur "+msg.guild.name)
@@ -56,6 +59,8 @@ bot.on("message", msg => {
                     dispatcher.on("start", () => {
                         if(msg.content.split(" ")[1] === "url"){
                             msg.channel.send("J'ai démarré un son, j'sais po c'est qwo, mais si t'aimes ben tant mieux :joy::joy:")
+                        } else {
+                            msg.channel.send("Voilà, j't'ai démarré le son "+sound)
                         }
                     })
                     dispatcher.on("end", () => {
@@ -63,7 +68,7 @@ bot.on("message", msg => {
                         playin[msg.guild.id] = false
                     })
                 })
-            },2000)
+            },1000)
         }
     } else if(msg.content === "/stop") {
         if(playin[msg.guild.id] === true && msg.member.voice.channel){
